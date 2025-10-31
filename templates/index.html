@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>🔐 Görsel Şifreleme Web</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f8f8f8; margin: 40px; }
+    h1 { color: #800000; }
+    form { margin: 20px auto; background: white; padding: 20px; border-radius: 10px; width: 400px; box-shadow: 0 0 10px #ccc; }
+    img { width: 250px; margin: 10px; border-radius: 10px; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>🧩 Görsel Şifreleme ve Deşifreleme</h1>
+
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    <p><input type="file" name="image" required></p>
+    <p><input type="number" name="key" placeholder="Anahtar (sayı)" required></p>
+    <button type="submit">🔒 Şifrele</button>
+  </form>
+
+  <form method="post" action="/decrypt" enctype="multipart/form-data">
+    <p><input type="file" name="image" required></p>
+    <p><input type="number" name="key" placeholder="Aynı Anahtar" required></p>
+    <button type="submit">🔓 Deşifrele</button>
+  </form>
+
+  {% if original %}
+  <h3>Orijinal ve Şifreli Görseller</h3>
+  <img src="{{ url_for('static', filename='uploads/' + original) }}">
+  <img src="{{ url_for('static', filename='uploads/' + encrypted) }}">
+  {% endif %}
+
+  {% if decrypted %}
+  <h3>Deşifrelenmiş Görsel</h3>
+  <img src="{{ url_for('static', filename='uploads/' + decrypted) }}">
+  {% endif %}
+</body>
+</html>
